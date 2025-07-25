@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>T-shirt Size Collection Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      padding: 20px;
+    }
+    .head{
+      display: flex;
+      height: auto;
+      justify-content: center;
+      gap: 100px;
+
+    }
+    .logo img{
+      width: 100%;
+      height: auto;
+    }
+    .container {
+      max-width: 400px;
+      background: white;
+      padding: 25px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      color: #555;
+    }
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    .btn{
+      width: 100%;
+      background-color: #007BFF;
+      border: none;
+      padding: 10px;
+      color: white;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .btn a{
+      text-decoration: none;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+      font-family: sans-serif;
+    }
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    .error {
+      color: red;
+      font-size: 13px;
+      margin-top: -12px;
+      margin-bottom: 10px;
+    }
+    .success-message {
+      text-align: center;
+      color: green;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="head">
+    <div class="logo">
+        <img src="images//taifa1.png">
+     
+    </div>
+    <div class="size">
+     <img src="images//ega-white-bg.svg">
+    </div>
+  </div>
+  <div class="container">
+    <h2>T-shirt Size Collection</h2>
+    <section id="form">
+    <form id="tshirtForm" novalidate>
+      <label for="firstName">First Name *</label>
+      <input type="text" id="firstName" name="firstName" placeholder="Enter your first name" />
+      <div id="firstNameError" class="error"></div>
+   <label for="middleName">middle Name *</label>
+      <input type="text" id="middleName" name="middleName" placeholder="Enter your middle name" />
+      <div id="middleNameError" class="error"></div>
+      
+
+      <label for="lastName">Last Name *</label>
+      <input type="text" id="lastName" name="lastName" placeholder="Enter your last name" />
+      <div id="lastNameError" class="error"></div>
+
+      <label for="email">Email *</label>
+      <input type="email" id="email" name="email" placeholder="Enter your email" />
+      <div id="emailError" class="error"></div>
+
+      <label for="size">T-shirt Size *</label>
+      <select id="size" name="size">
+        <option value="">-- Select size --</option>
+        <option value="XS">Small (XS)</option>
+        <option value="M">Medium (M)</option>
+        <option value="L">Large (L)</option>
+        <option value="XL">Extra Large (XL)</option>
+        <option value="XXL">Extra Extra Large (XXL)</option>
+      </select>
+      <div id="sizeError" class="error"></div>
+
+      <button class="btn"><a href="http://172.17.17.246:8000/api/submit">submitt</button>
+    </form>
+  </section>
+    <div id="successMessage" class="success-message"></div>
+  </div>
+
+  <script>
+    document.getElementById("tshirtForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      // Clear previous errors
+      ["firstNameError", "middlenameError" "lastNameError", "emailError", "sizeError", "successMessage"].forEach(id => {
+        document.getElementById(id).textContent = "";
+      });
+
+      let valid = true;
+      let totalSubmissions = 0;
+
+      // Validate First Name
+      const firstName = document.getElementById("firstName").value.trim();
+      if (!firstName) {
+        document.getElementById("firstNameError").textContent = "First name is required.";
+        valid = false;
+      }
+      //validation of middle name
+      const middlename = document.getElementById("middleName").value.trim();
+      if (!firstName) {
+        document.getElementById("middleNameError").textContent = "middleName name is optional.";
+        valid = false;
+      }
+
+
+      // Validate Last Name
+      const lastName = document.getElementById("lastName").value.trim();
+      if (!lastName) {
+        document.getElementById("lastNameError").textContent = "Last name is required.";
+        valid = false;
+      }
+
+      // Validate Email
+      const email = document.getElementById("email").value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email) {
+        document.getElementById("emailError").textContent = "Email is required.";
+        valid = false;
+      } else if (!emailRegex.test(email)) {
+        document.getElementById("emailError").textContent = "Please enter a valid email.";
+        valid = false;
+      }
+
+
+      // Validate Size
+      const size = document.getElementById("size").value;
+      if (!size) {
+        document.getElementById("sizeError").textContent = "Please select a T-shirt size.";
+        valid = false;
+      }
+
+      // If all valid, show success message
+      if (valid) {
+        document.getElementById("successMessage").textContent = "Thank you! Your details have been submitted.";
+             document.getElementById('total').textContent = `Total submissions: ${totalSubmissions}`; 
+        // Optionally reset form
+        this.reset();
+
+        setTimeout(() => {
+          location.reload();
+        }, 5000);
+      }
+    });
+  </script>
+</body>
+</html>
